@@ -38,8 +38,8 @@ function LoginForm() {
       if (redirectUri) {
         window.location.href = `${redirectUri}?token=${data.token}`;
       } else {
-        // Jika tidak ada redirect_uri, ke app list
-        router.push('/apps');
+        // Jika tidak ada redirect_uri, ke homepage
+        router.push('/');
       }
     } catch (err: any) {
       setError(err.message);
@@ -49,23 +49,25 @@ function LoginForm() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-green-50 dark:from-gray-900 dark:to-gray-800">
-      <div className="max-w-md w-full mx-4">
-        <div className="bg-white dark:bg-gray-800 shadow-2xl rounded-lg p-8">
+    <div className="min-h-screen flex items-center justify-center bg-black px-4">
+      <div className="max-w-md w-full">
+        <div className="bg-gradient-to-br from-gray-900 to-gray-800 shadow-2xl shadow-purple-500/20 rounded-lg p-8 border border-purple-500/30">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-              SSO Login
+            <h1 className="text-4xl font-bold text-white mb-2">
+              Welcome Back
             </h1>
+            <p className="text-purple-400 text-lg">Login to access your portal</p>
             {appName && (
-              <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
-                Login untuk mengakses <span className="font-semibold">{appName}</span>
+              <p className="text-sm text-gray-400 mt-3 bg-purple-500/10 py-2 px-4 rounded">
+                Accessing <span className="font-semibold text-purple-300">{appName}</span>
               </p>
             )}
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             {error && (
-              <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 px-4 py-3 rounded">
+              <div className="bg-red-900/30 border border-red-500/50 text-red-300 px-4 py-3 rounded-lg">
+                <i className="fas fa-exclamation-circle mr-2"></i>
                 {error}
               </div>
             )}
@@ -73,9 +75,9 @@ function LoginForm() {
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                className="block text-sm font-medium text-gray-300 mb-2"
               >
-                Email
+                Email Address
               </label>
               <input
                 id="email"
@@ -83,7 +85,7 @@ function LoginForm() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                className="w-full px-4 py-3 bg-gray-800 border border-purple-500/30 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-white placeholder-gray-500 transition"
                 placeholder="email@example.com"
               />
             </div>
@@ -91,7 +93,7 @@ function LoginForm() {
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                className="block text-sm font-medium text-gray-300 mb-2"
               >
                 Password
               </label>
@@ -101,7 +103,7 @@ function LoginForm() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                className="w-full px-4 py-3 bg-gray-800 border border-purple-500/30 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-white placeholder-gray-500 transition"
                 placeholder="••••••••"
               />
             </div>
@@ -109,15 +111,28 @@ function LoginForm() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-gradient-to-r from-blue-500 to-green-500 text-white py-3 rounded-lg font-semibold hover:from-blue-600 hover:to-green-600 disabled:opacity-50 disabled:cursor-not-allowed transition"
+              className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg hover:shadow-xl"
             >
-              {loading ? 'Logging in...' : 'Login'}
+              {loading ? (
+                <>
+                  <i className="fas fa-spinner fa-spin mr-2"></i>
+                  Logging in...
+                </>
+              ) : (
+                <>
+                  <i className="fas fa-sign-in-alt mr-2"></i>
+                  Login
+                </>
+              )}
             </button>
           </form>
 
           <div className="mt-6 text-center">
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              Demo: admin@test.com / admin123
+            <p className="text-sm text-gray-400">
+              Demo credentials
+            </p>
+            <p className="text-xs text-purple-400 mt-1">
+              admin@test.com / admin123
             </p>
           </div>
         </div>
@@ -129,8 +144,10 @@ function LoginForm() {
 export default function LoginPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-green-50 dark:from-gray-900 dark:to-gray-800">
-        <div className="text-gray-600 dark:text-gray-400">Loading...</div>
+      <div className="min-h-screen flex items-center justify-center bg-black">
+        <div className="text-purple-500">
+          <i className="fas fa-spinner fa-spin text-2xl"></i>
+        </div>
       </div>
     }>
       <LoginForm />
